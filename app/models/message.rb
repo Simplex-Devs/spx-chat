@@ -21,6 +21,7 @@
 #  inbox_id                  :integer          not null
 #  sender_id                 :bigint
 #  source_id                 :string
+#  team_id                   :integer
 #
 # Indexes
 #
@@ -63,6 +64,7 @@ class Message < ApplicationRecord
   before_validation :prevent_message_flooding
   before_save :ensure_processed_message_content
   before_save :ensure_in_reply_to
+  before_create :set_team_id_from_conversation
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -111,6 +113,7 @@ class Message < ApplicationRecord
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
   scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('id desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
+  scope :for_team, ->(team_id) { where(team_id: team_id) }
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
@@ -396,6 +399,10 @@ class Message < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def set_team_id_from_conversation
+    self.team_id = conversation.team_id if conversation.present?
   end
 end
 
