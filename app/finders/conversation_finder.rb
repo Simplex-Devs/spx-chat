@@ -83,7 +83,11 @@ class ConversationFinder
   end
 
   def set_team
-    @team = current_account.teams.find(params[:team_id]) if params[:team_id]
+    if params[:team_id]
+      @team = current_account.teams.find(params[:team_id])
+    elsif !@is_admin && current_user.teams.any?
+      @team = current_user.teams.first # ou defina a lógica para o time principal do usuário
+    end
   end
 
   def find_conversation_by_inbox
@@ -147,7 +151,7 @@ class ConversationFinder
   def filter_by_team
     return unless @team
 
-    @conversations = @conversations.where(team: @team)
+    @conversations = @conversations.where('team_id = ? OR team_id IS NULL', @team.id)
   end
 
   def filter_by_labels

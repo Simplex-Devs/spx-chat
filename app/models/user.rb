@@ -156,6 +156,15 @@ class User < ApplicationRecord
     find_by(email: email&.downcase)
   end
 
+  def messages(team_id = nil)
+    if team_id.nil?
+      # AVISO: Use sempre que possível messages(team_id) para garantir segurança!
+      super()
+    else
+      super().where(team_id: team_id)
+    end
+  end
+
   private
 
   def remove_macros

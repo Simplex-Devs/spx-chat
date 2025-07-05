@@ -33,7 +33,7 @@ const actions = {
       commit(types.UPDATE_CONVERSATION, response.data);
       commit(`contacts/${types.SET_CONTACT_ITEM}`, response.data.meta.sender);
     } catch (error) {
-      // Ignore error
+      throw error;
     }
   },
 

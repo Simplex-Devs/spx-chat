@@ -720,6 +720,7 @@ async function onAssignTeam(team, conversationId = null) {
         conversationId,
       })
     );
+    router.push(`/app/accounts/${currentAccountId.value}/dashboard`);
   } catch (error) {
     useAlert(t('CONVERSATION.CARD_CONTEXT_MENU.API.TEAM_ASSIGNMENT.FAILED'));
   }
