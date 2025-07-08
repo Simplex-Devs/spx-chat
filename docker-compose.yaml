@@ -1,95 +1,58 @@
 version: "3.7"
+
 services:
 
-## --------------------------- ORION --------------------------- ##
-
   chatwoot_app:
-    image: chatwoot/chatwoot:v4.2.0 ## Versão do Chatwoot
+    build:
+      context: .  # raiz do seu projeto modificado
+      dockerfile: ./docker/dockerfiles/rails.Dockerfile
+    image: chatwoot-rails:production
     command: >
       sh -c "echo 'Rails.application.config.active_storage.variant_processor = :mini_magick' > /app/config/initializers/active_storage.rb && bundle exec rails s -p 3000 -b 0.0.0.0"
     entrypoint: docker/entrypoints/rails.sh
-
     volumes:
-      - chatwoot_storage:/app/storage ## Arquivos de conversa
-      - chatwoot_public:/app/public ## Arquivos de logos
-      - chatwoot_mailer:/app/app/views/devise/mailer ## Arquivos de email
-      - chatwoot_mailers:/app/app/views/mailers ## Arquivos de emails
-
+      - chatwoot_storage:/app/storage
+      - chatwoot_public:/app/public
+      - chatwoot_mailer:/app/app/views/devise/mailer
+      - chatwoot_mailers:/app/app/views/mailers
     networks:
-      - NetAlternativo ## Nome da rede interna
-    
+      - NetAlternativo
     environment:
-      ## 🌐 Qualquer Url com # no final
-      #- CHATWOOT_HUB_URL=https://oriondesign.art.br/setup#
-
-      ## 🏢 Nome da Empresa
       - INSTALLATION_NAME=CoAlternativo
-
-      ## 🔐 Secret key
       - SECRET_KEY_BASE=4235a04ac8018f8e4aeb485bebe62704
-
-      ## 💬 Url Chatwoot
       - FRONTEND_URL=https://chat.colegioalternativo.com.br
       - FORCE_SSL=true
-
-      ## 🌍 Idioma/Localização padrão
       - DEFAULT_LOCALE=pt_BR
       - TZ=America/Sao_Paulo
-
-      ## ☁️ Google Cloud - Modifique de acordo com os seus dados
-      #- GOOGLE_OAUTH_CLIENT_ID=369777777777-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com
-      #- GOOGLE_OAUTH_CLIENT_SECRET=ABCDEF-GHijklmnoPqrstuvwX-yz1234567
-      #- GOOGLE_OAUTH_CALLBACK_URL=https://<your-server-domain>/omniauth/google_oauth2/callback
-
-      ## 🧑‍💻 Dados do Redis
       - REDIS_URL=redis://chatwoot_redis:6379
-
-      ## 🗄️ Dados do Postgres
       - POSTGRES_HOST=pgvector
       - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=17fd8d84132b1b48317e8d95096dfc98 ## Senha do postgres
+      - POSTGRES_PASSWORD=17fd8d84132b1b48317e8d95096dfc98
       - POSTGRES_DATABASE=chatwoot
-
-      ## 🏠 Armazenamento
-      - ACTIVE_STORAGE_SERVICE=local ## use s3_compatible para MinIO
-      #- STORAGE_BUCKET_NAME=chatwoot
-      #- STORAGE_ACCESS_KEY_ID=ACCESS_KEY_MINIO
-      #- STORAGE_SECRET_ACCESS_KEY=SECRET_KEY_MINIO
-      #- STORAGE_REGION=eu-south
-      #- STORAGE_ENDPOINT=https://s3.DOMINIO.COM
-      #- STORAGE_FORCE_PATH_STYLE=true
-
-      ## 📧 Dados do SMTP
-      - MAILER_SENDER_EMAIL=chat@colegioalternativo.com.br <chat@colegioalternativo.com.br> ## Email SMTP
-      - SMTP_DOMAIN=colegioalternativo.com.br ## Dominio do email
-      - SMTP_ADDRESS=mail.colegioalternativo.com.br ## Host SMTP
-      - SMTP_PORT=587 ## Porta SMTP
-      - SMTP_SSL=false ## Se a porta for 465 = true | Se a porta for 587 = false
-      - SMTP_USERNAME=chat@colegioalternativo.com.br ## Usuario SMTP
-      - SMTP_PASSWORD=3yFzgwCq3bwD4xt ## Senha do SMTP
+      - ACTIVE_STORAGE_SERVICE=local
+      - MAILER_SENDER_EMAIL=chat@colegioalternativo.com.br <chat@colegioalternativo.com.br>
+      - SMTP_DOMAIN=colegioalternativo.com.br
+      - SMTP_ADDRESS=mail.colegioalternativo.com.br
+      - SMTP_PORT=587
+      - SMTP_SSL=false
+      - SMTP_USERNAME=chat@colegioalternativo.com.br
+      - SMTP_PASSWORD=3yFzgwCq3bwD4xt
       - SMTP_AUTHENTICATION=login
       - SMTP_ENABLE_STARTTLS_AUTO=true
       - SMTP_OPENSSL_VERIFY_MODE=peer
-      - MAILER_INBOUND_EMAIL_DOMAIN=chat@colegioalternativo.com.br ## Email SMTP
-
-      ## ⚙️ Melhorias
+      - MAILER_INBOUND_EMAIL_DOMAIN=chat@colegioalternativo.com.br
       - SIDEKIQ_CONCURRENCY=10
       - RACK_TIMEOUT_SERVICE_TIMEOUT=0
       - RAILS_MAX_THREADS=5
       - WEB_CONCURRENCY=2
       - ENABLE_RACK_ATTACK=false
-
-      ## ⚡ Outras configurações
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
       - RAILS_LOG_TO_STDOUT=true
       - USE_INBOX_AVATAR_FOR_BOT=true
       - ENABLE_ACCOUNT_SIGNUP=false
-
     deploy:
-      # mode: replicated
-      # replicas: 1
       placement:
         constraints:
           - node.role == manager
@@ -109,93 +72,55 @@ services:
         - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
         - traefik.http.routers.chatwoot_app.middlewares=sslheader
 
-## --------------------------- ORION --------------------------- ##
-
   chatwoot_sidekiq:
-    image: chatwoot/chatwoot:v4.2.0 ## Versão do Chatwoot
+    build:
+      context: .
+      dockerfile: ./docker/dockerfiles/rails.Dockerfile
+    image: chatwoot-rails:production
     command: bundle exec sidekiq -C config/sidekiq.yml
-
     volumes:
-      - chatwoot_storage:/app/storage ## Arquivos de conversa
-      - chatwoot_public:/app/public ## Arquivos de logos
-      - chatwoot_mailer:/app/app/views/devise/mailer ## Arquivos de email
-      - chatwoot_mailers:/app/app/views/mailers ## Arquivos de emails
-
+      - chatwoot_storage:/app/storage
+      - chatwoot_public:/app/public
+      - chatwoot_mailer:/app/app/views/devise/mailer
+      - chatwoot_mailers:/app/app/views/mailers
     networks:
-      - NetAlternativo ## Nome da rede interna
-
+      - NetAlternativo
     environment:
-      ## 🌐 Qualquer Url com # no final
-      #- CHATWOOT_HUB_URL=https://oriondesign.art.br/setup#
-
-      ## 🏢 Nome da Empresa
       - INSTALLATION_NAME=CoAlternativo
-
-      ## 🔐 Secret key
       - SECRET_KEY_BASE=4235a04ac8018f8e4aeb485bebe62704
-
-      ## 💬 Url Chatwoot
       - FRONTEND_URL=https://chat.colegioalternativo.com.br
       - FORCE_SSL=true
-
-      ## 🌍 Idioma/Localização padrão
       - DEFAULT_LOCALE=pt_BR
       - TZ=America/Sao_Paulo
-
-      ## ☁️ Google Cloud - Modifique de acordo com os seus dados
-      #- GOOGLE_OAUTH_CLIENT_ID=369777777777-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com
-      #- GOOGLE_OAUTH_CLIENT_SECRET=ABCDEF-GHijklmnoPqrstuvwX-yz1234567
-      #- GOOGLE_OAUTH_CALLBACK_URL=https://<your-server-domain>/omniauth/google_oauth2/callback
-
-      ## 🧑‍💻 Dados do Redis
       - REDIS_URL=redis://chatwoot_redis:6379
-
-      ## 🗄️ Dados do Postgres
       - POSTGRES_HOST=pgvector
       - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=17fd8d84132b1b48317e8d95096dfc98 ## Senha do postgres
+      - POSTGRES_PASSWORD=17fd8d84132b1b48317e8d95096dfc98
       - POSTGRES_DATABASE=chatwoot
-
-      ## 🏠 Armazenamento
-      - ACTIVE_STORAGE_SERVICE=local ## use s3_compatible para MinIO
-      #- STORAGE_BUCKET_NAME=chatwoot
-      #- STORAGE_ACCESS_KEY_ID=ACCESS_KEY_MINIO
-      #- STORAGE_SECRET_ACCESS_KEY=SECRET_KEY_MINIO
-      #- STORAGE_REGION=eu-south
-      #- STORAGE_ENDPOINT=https://s3.DOMINIO.COM
-      #- STORAGE_FORCE_PATH_STYLE=true
-
-      ## 📧 Dados do SMTP
-      - MAILER_SENDER_EMAIL=chat@colegioalternativo.com.br <chat@colegioalternativo.com.br> ## Email SMTP
-      - SMTP_DOMAIN=colegioalternativo.com.br ## Dominio do email
-      - SMTP_ADDRESS=mail.colegioalternativo.com.br ## Host SMTP
-      - SMTP_PORT=587 ## Porta SMTP
-      - SMTP_SSL=false ## Se a porta for 465 = true | Se a porta for 587 = false
-      - SMTP_USERNAME=chat@colegioalternativo.com.br ## Usuario SMTP
-      - SMTP_PASSWORD=3yFzgwCq3bwD4xt ## Senha do SMTP
+      - ACTIVE_STORAGE_SERVICE=local
+      - MAILER_SENDER_EMAIL=chat@colegioalternativo.com.br <chat@colegioalternativo.com.br>
+      - SMTP_DOMAIN=colegioalternativo.com.br
+      - SMTP_ADDRESS=mail.colegioalternativo.com.br
+      - SMTP_PORT=587
+      - SMTP_SSL=false
+      - SMTP_USERNAME=chat@colegioalternativo.com.br
+      - SMTP_PASSWORD=3yFzgwCq3bwD4xt
       - SMTP_AUTHENTICATION=login
       - SMTP_ENABLE_STARTTLS_AUTO=true
       - SMTP_OPENSSL_VERIFY_MODE=peer
-      - MAILER_INBOUND_EMAIL_DOMAIN=chat@colegioalternativo.com.br ## Email SMTP
-
-      ## ⚙️ Melhorias
+      - MAILER_INBOUND_EMAIL_DOMAIN=chat@colegioalternativo.com.br
       - SIDEKIQ_CONCURRENCY=10
       - RACK_TIMEOUT_SERVICE_TIMEOUT=0
       - RAILS_MAX_THREADS=5
       - WEB_CONCURRENCY=2
       - ENABLE_RACK_ATTACK=false
-
-      ## ⚡ Outras configurações
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
       - RAILS_LOG_TO_STDOUT=true
       - USE_INBOX_AVATAR_FOR_BOT=true
       - ENABLE_ACCOUNT_SIGNUP=false
-
     deploy:
-      # mode: replicated
-      # replicas: 1
       placement:
         constraints:
           - node.role == manager
@@ -203,29 +128,14 @@ services:
         limits:
           cpus: "2"
           memory: 2048M
-
-## --------------------------- ORION --------------------------- ##
 
   chatwoot_redis:
-    image: redis:latest  ## Versão do Redis
-    command: [
-        "redis-server",
-        "--appendonly",
-        "yes",
-        "--port",
-        "6379"
-      ]
-
+    image: redis:latest
+    command: ["redis-server", "--appendonly", "yes", "--port", "6379"]
     volumes:
       - chatwoot_redis:/data
-
     networks:
-      - NetAlternativo ## Nome da rede interna
-
-    ## Descomente as linhas abaixo para uso externo
-    #ports:
-    #  - 6379:6379
-
+      - NetAlternativo
     deploy:
       placement:
         constraints:
@@ -234,8 +144,6 @@ services:
         limits:
           cpus: "2"
           memory: 2048M
-
-## --------------------------- ORION --------------------------- ##
 
 volumes:
   chatwoot_storage:
@@ -250,12 +158,11 @@ volumes:
   chatwoot_mailers:
     external: true
     name: chatwoot_mailers
-  volumes:
   chatwoot_redis:
     external: true
     name: chatwoot_redis
 
 networks:
-  NetAlternativo: ## Nome da rede interna
+  NetAlternativo:
     external: true
-    name: NetAlternativo ## Nome da rede interna
+    name: NetAlternativo
