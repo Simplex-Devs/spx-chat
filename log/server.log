@@ -3694,3 +3694,24 @@ Processing by Api::V1::Accounts::TeamsController#index as JSON
 Completed 200 OK in 157ms (Views: 46.8ms | ActiveRecord: 55.0ms | Allocations: 30781)
 
 
+Started GET "/" for 64.62.197.32 at 2025-07-08 13:40:56 +0000
+Cannot render console from 64.62.197.32! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by DashboardController#index as */*
+Filter chain halted as :ensure_html_format rendered or redirected
+Completed 406 Not Acceptable in 265ms (ActiveRecord: 25.4ms | Allocations: 18941)
+
+
+2025-07-08 13:41:04 +0000 SSL error, peer: 64.62.197.32, peer cert: : #<Puma::MiniSSL::SSLError: OpenSSL error: error:0A00018C:SSL routines::version too low - 396>
+2025-07-08 13:41:07 +0000 SSL error, peer: 64.62.197.32, peer cert: : #<Puma::MiniSSL::SSLError: OpenSSL error: error:0A0000C1:SSL routines::no shared cipher - 193>
+Started GET "/" for 64.62.197.39 at 2025-07-08 13:41:13 +0000
+Cannot render console from 64.62.197.39! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by DashboardController#index as */*
+Filter chain halted as :ensure_html_format rendered or redirected
+Completed 406 Not Acceptable in 65ms (ActiveRecord: 1.2ms | Allocations: 11192)
+
+
+Started GET "/favicon.ico" for 64.62.197.34 at 2025-07-08 13:41:23 +0000
+Cannot render console from 64.62.197.34! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
