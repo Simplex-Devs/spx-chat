@@ -53,6 +53,8 @@ services:
       - USE_INBOX_AVATAR_FOR_BOT=true
       - ENABLE_ACCOUNT_SIGNUP=false
     deploy:
+      mode: replicated
+      replicas: 1
       placement:
         constraints:
           - node.role == manager
@@ -121,6 +123,8 @@ services:
       - USE_INBOX_AVATAR_FOR_BOT=true
       - ENABLE_ACCOUNT_SIGNUP=false
     deploy:
+      mode: replicated
+      replicas: 1
       placement:
         constraints:
           - node.role == manager
