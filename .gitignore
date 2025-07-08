@@ -91,7 +91,7 @@ yarn-integrity
 
 
 # TextEditors & AI Agents config files
-.vscode
+#.vscode
 .claude/settings.local.json
 .cursor
 node_modules
