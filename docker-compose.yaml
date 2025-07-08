@@ -89,14 +89,14 @@ services:
 
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 0
       placement:
         constraints:
           - node.role == manager
       resources:
         limits:
-          cpus: "1"
-          memory: 1024M
+          cpus: "2"
+          memory: 2048M
       labels:
         - traefik.enable=true
         - traefik.http.routers.chatwoot_app.rule=Host(`chat.colegioalternativo.com.br`)
@@ -195,14 +195,14 @@ services:
 
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 0
       placement:
         constraints:
           - node.role == manager
       resources:
         limits:
-          cpus: "1"
-          memory: 1024M
+          cpus: "2"
+          memory: 2048M
 
 ## --------------------------- ORION --------------------------- ##
 
@@ -232,7 +232,7 @@ services:
           - node.role == manager
       resources:
         limits:
-          cpus: "1"
+          cpus: "2"
           memory: 2048M
 
 ## --------------------------- ORION --------------------------- ##
