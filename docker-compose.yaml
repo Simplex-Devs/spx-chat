@@ -88,8 +88,8 @@ services:
       - ENABLE_ACCOUNT_SIGNUP=false
 
     deploy:
-      mode: replicated
-      replicas: 0
+      # mode: replicated
+      # replicas: 1
       placement:
         constraints:
           - node.role == manager
@@ -194,8 +194,8 @@ services:
       - ENABLE_ACCOUNT_SIGNUP=false
 
     deploy:
-      mode: replicated
-      replicas: 0
+      # mode: replicated
+      # replicas: 1
       placement:
         constraints:
           - node.role == manager
