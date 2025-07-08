@@ -3715,3 +3715,68 @@ Cannot render console from 64.62.197.34! Allowed networks: 127.0.0.0/127.255.255
   
 ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
   
+Started GET "/" for 91.196.152.70 at 2025-07-08 14:38:27 +0000
+Cannot render console from 91.196.152.70! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/vueapp (Duration: 1.1ms | Allocations: 86)
+  Rendered layout layouts/vueapp.html.erb (Duration: 4745.5ms | Allocations: 68573)
+Completed 200 OK in 5120ms (Views: 4759.8ms | ActiveRecord: 32.2ms | Allocations: 87828)
+
+
+Started GET "/" for 206.168.34.77 at 2025-07-08 15:51:30 +0000
+Cannot render console from 206.168.34.77! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by DashboardController#index as */*
+Filter chain halted as :ensure_html_format rendered or redirected
+Completed 406 Not Acceptable in 298ms (ActiveRecord: 61.1ms | Allocations: 18856)
+
+
+Unsupported HTTP method used: PRI
+2025-07-08 15:51:38 +0000 SSL error, peer: 206.168.34.77, peer cert: : #<Puma::MiniSSL::SSLError: OpenSSL error: error:0A000102:SSL routines::unsupported protocol - 258>
+2025-07-08 15:51:40 +0000 SSL error, peer: 206.168.34.77, peer cert: : #<Puma::MiniSSL::SSLError: OpenSSL error: error:0A000102:SSL routines::unsupported protocol - 258>
+2025-07-08 15:51:42 +0000 SSL error, peer: 206.168.34.77, peer cert: : #<Puma::MiniSSL::SSLError: OpenSSL error: error:0A00018C:SSL routines::version too low - 396>
+Started GET "/favicon.ico" for 206.168.34.77 at 2025-07-08 15:51:46 +0000
+Cannot render console from 206.168.34.77! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Unsupported HTTP method used: PRI
+2025-07-08 17:38:56 +0000 SSL error, peer: 178.62.216.118, peer cert: : #<Puma::MiniSSL::SSLError: HTTP connection?>
+Started GET "/aaa9" for 178.62.216.118 at 2025-07-08 17:38:57 +0000
+Cannot render console from 178.62.216.118! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+  
+ActionController::RoutingError (No route matches [GET] "/aaa9"):
+  
+2025-07-08 17:39:10 +0000 SSL error, peer: 178.62.216.118, peer cert: : #<Puma::MiniSSL::SSLError: HTTP connection?>
+Started GET "/aab8" for 178.62.216.118 at 2025-07-08 17:39:11 +0000
+Cannot render console from 178.62.216.118! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+  
+ActionController::RoutingError (No route matches [GET] "/aab8"):
+  
+2025-07-08 17:39:23 +0000 SSL error, peer: 178.62.216.118, peer cert: : #<Puma::MiniSSL::SSLError: HTTP connection?>
+Started GET "/" for 178.62.216.118 at 2025-07-08 17:39:23 +0000
+Cannot render console from 178.62.216.118! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by DashboardController#index as */*
+Filter chain halted as :ensure_html_format rendered or redirected
+Completed 406 Not Acceptable in 191ms (ActiveRecord: 23.9ms | Allocations: 18857)
+
+
+2025-07-08 17:58:17 +0000 SSL error, peer: 165.22.60.26, peer cert: : #<Puma::MiniSSL::SSLError: HTTP connection?>
+Started GET "/aaa9" for 165.22.60.26 at 2025-07-08 17:58:19 +0000
+Cannot render console from 165.22.60.26! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+  
+ActionController::RoutingError (No route matches [GET] "/aaa9"):
+  
+2025-07-08 17:58:32 +0000 SSL error, peer: 165.22.60.26, peer cert: : #<Puma::MiniSSL::SSLError: HTTP connection?>
+Started GET "/aab8" for 165.22.60.26 at 2025-07-08 17:58:34 +0000
+Cannot render console from 165.22.60.26! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+  
+ActionController::RoutingError (No route matches [GET] "/aab8"):
+  
+2025-07-08 17:58:47 +0000 SSL error, peer: 165.22.60.26, peer cert: : #<Puma::MiniSSL::SSLError: HTTP connection?>
+Started GET "/" for 165.22.60.26 at 2025-07-08 17:58:49 +0000
+Cannot render console from 165.22.60.26! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by DashboardController#index as */*
+Filter chain halted as :ensure_html_format rendered or redirected
+Completed 406 Not Acceptable in 176ms (ActiveRecord: 26.2ms | Allocations: 18859)
+
+
