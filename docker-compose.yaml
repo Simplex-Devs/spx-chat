@@ -3,7 +3,10 @@ services:
   ## --------------------------- ORION --------------------------- ##
 
   chatwoot_app:
-    image: chatwoot-custom:latest ## Usando a imagem customizada
+    build:
+      context: https://github.com/Simplex-Devs/spx-chat.git
+      dockerfile: Dockerfile
+    # image: chatwoot-custom:latest ## Usando a imagem customizada
     command: >
       sh -c "echo 'Rails.application.config.active_storage.variant_processor = :mini_magick' > /app/config/initializers/active_storage.rb && bundle exec rails s -p 3000 -b 0.0.0.0"
     entrypoint: docker/entrypoints/rails.sh
@@ -110,7 +113,10 @@ services:
   ## --------------------------- ORION --------------------------- ##
 
   chatwoot_sidekiq:
-    image: chatwoot-custom:latest ## Usando a imagem customizada
+    build:
+      context: https://github.com/Simplex-Devs/spx-chat.git
+      dockerfile: Dockerfile
+    # image: chatwoot-custom:latest ## Usando a imagem customizada
     command: bundle exec sidekiq -C config/sidekiq.yml
 
     volumes:
@@ -206,7 +212,7 @@ services:
 
   chatwoot_redis:
     image: redis:latest ## Versão do Redis
-    command: [ 'redis-server', '--appendonly', 'yes', '--port', '6379' ]
+    command: ['redis-server', '--appendonly', 'yes', '--port', '6379']
 
     volumes:
       - chatwoot_redis:/data
@@ -247,7 +253,6 @@ volumes:
     name: chatwoot_redis
 
 networks:
-  NetAlternativo:
-    ## Nome da rede interna
+  NetAlternativo: ## Nome da rede interna
     external: true
-    name: NetAlternativo ## Nome da rede interna
+    name: NetAlternativo ## Nome da rede interna 
