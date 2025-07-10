@@ -46,6 +46,8 @@ export default defineConfig({
   plugins: plugins,
   build: {
     rollupOptions: {
+      // Limita o número de arquivos processados simultaneamente
+      maxParallelFileOps: 2,
       output: {
         // [NOTE] when not in library mode, no new keys will be addedd or overwritten
         // setting dir: isLibraryMode ? 'public/packs' : undefined will not work
